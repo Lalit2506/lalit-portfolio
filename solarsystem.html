@@ -4,11 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar System - Complete Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 56px 20px 80px;
+            color: #e8f1ff;
+            background:
+                radial-gradient(ellipse at 15% 20%, rgba(87, 42, 170, .48) 0, transparent 38%),
+                radial-gradient(ellipse at 85% 12%, rgba(0, 157, 214, .38) 0, transparent 34%),
+                radial-gradient(ellipse at 70% 78%, rgba(206, 47, 125, .22) 0, transparent 36%),
+                linear-gradient(135deg, #090d2d 0%, #11154a 38%, #071b38 68%, #160b2c 100%);
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .75;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,.95) 0 1px, transparent 1.5px),
+                radial-gradient(circle, rgba(125,215,255,.8) 0 1px, transparent 1.5px),
+                radial-gradient(ellipse at center, rgba(113,64,255,.18), transparent 58%);
+            background-size: 97px 97px, 151px 151px, 100% 100%;
+            background-position: 12px 30px, 70px 90px, center;
+            animation: drift 24s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+        @keyframes drift {
+            from { transform: scale(1) translate3d(0, 0, 0); }
+            to { transform: scale(1.08) translate3d(-1%, 1%, 0); }
+        }
+        body > * {
+            max-width: 1050px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+            font-size: clamp(2.5rem, 7vw, 5.2rem);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            text-shadow: 0 0 12px #63b8ff, 0 0 35px #2369c7;
+            margin: 0 0 12px;
+        }
+        h2 {
+            color: #8ed3ff;
+            margin: 42px auto 16px;
+            padding: 14px 20px;
+            max-width: 950px;
+            border: 1px solid rgba(126, 205, 255, .28);
+            border-left: 4px solid #53c7ff;
+            border-radius: 14px;
+            background: linear-gradient(100deg, rgba(38, 101, 174, .3), rgba(20, 33, 91, .2));
+            box-shadow: 0 10px 28px rgba(0, 0, 0, .2), inset 0 1px rgba(255,255,255,.08);
+            text-shadow: 0 0 12px #1876b7;
+        }
+        img {
+            display: block;
+            margin: 18px auto;
+            max-width: 100%;
+            height: auto;
+            border: 2px solid rgba(135, 205, 255, .65);
+            border-radius: 22px;
+            box-shadow: 12px 16px 25px rgba(0, 0, 0, .55), 0 0 22px rgba(58, 168, 255, .35);
+            transform: perspective(700px) rotateY(-4deg) rotateX(2deg);
+            transition: transform .45s ease, box-shadow .45s ease;
+        }
+        img:hover {
+            transform: perspective(700px) rotateY(4deg) rotateX(-2deg) translateZ(18px) scale(1.04);
+            box-shadow: 20px 22px 35px rgba(0, 0, 0, .85), 0 0 38px rgba(94, 195, 255, .75);
+        }
+        p {
+            margin: 0 auto 24px;
+            padding: 18px 22px;
+            max-width: 950px;
+            color: #d3e2f5;
+            font-size: 1.05rem;
+            text-align: justify;
+            background: rgba(8, 18, 55, .46);
+            border: 1px solid rgba(126, 205, 255, .14);
+            border-radius: 14px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .16);
+            box-sizing: border-box;
+        }
+        p strong {
+            color: #78d7ff;
+        }
+        p em {
+            color: #ffd77a;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(85,191,255,.8), transparent);
+            margin: 50px auto;
+            max-width: 950px;
+        }
+        .hero-image {
+            width: min(500px, 90vw);
+            border-radius: 24px;
+            transform: perspective(900px) rotateX(8deg);
+        }
+        .solar-scene {
+            position: relative;
+            width: min(720px, 94vw);
+            height: min(420px, 58vw);
+            min-height: 280px;
+            margin: 0 auto 45px;
+            perspective: 900px;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 0 28px rgba(32, 126, 255, .28));
+        }
+        .sun {
+            position: absolute;
+            width: 82px;
+            height: 82px;
+            left: calc(50% - 41px);
+            top: calc(50% - 41px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #fff8a0, #ffd21f 40%, #ff7b00 75%, #d52d00);
+            box-shadow: 0 0 25px #ffbd24, 0 0 75px #ff7b00;
+            transform: translateZ(35px);
+        }
+        .orbit {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            border: 1px solid rgba(126, 205, 255, .42);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotateX(66deg);
+            transform-style: preserve-3d;
+            animation: spin 14s linear infinite;
+        }
+        .orbit::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            right: -9px;
+            top: calc(50% - 9px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 25%, #d8f4ff, #3988c6 55%, #12315d);
+            box-shadow: 0 0 12px #6acbff;
+        }
+        .orbit.one { width: 150px; height: 150px; animation-duration: 5s; }
+        .orbit.two { width: 245px; height: 245px; animation-duration: 8s; }
+        .orbit.three { width: 350px; height: 350px; animation-duration: 12s; }
+        .orbit.four { width: 470px; height: 470px; animation-duration: 18s; }
+        @keyframes spin { to { transform: translate(-50%, -50%) rotateX(66deg) rotateZ(360deg); } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+        @media (max-width: 600px) {
+            body { padding: 30px 14px 50px; }
+            h1 { letter-spacing: .04em; }
+            h2 { margin-top: 32px; padding: 12px 15px; }
+            p { text-align: left; font-size: 1rem; padding: 15px 16px; }
+            .solar-scene { min-height: 230px; }
+            .orbit.four { width: 290px; height: 290px; }
+            .orbit.three { width: 220px; height: 220px; }
+            .orbit.two { width: 155px; height: 155px; }
+            .orbit.one { width: 95px; height: 95px; }
+            .sun { width: 52px; height: 52px; left: calc(50% - 26px); top: calc(50% - 26px); }
+        }
+    </style>
 </head>
 <body>
 
     <!-- Main Heading & Intro -->
     <h1>The Solar System</h1>
+    <div class="solar-scene" aria-label="Animated 3D model of planets orbiting the Sun" role="img">
+        <div class="sun"></div>
+        <div class="orbit one"></div>
+        <div class="orbit two"></div>
+        <div class="orbit three"></div>
+        <div class="orbit four"></div>
+    </div>
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS83Ryu0G4-MHWC6kcWVIpXO65J-vH83HaGzqbispYIqQ&s=10" alt="z - Solar System" width="500" >
     <p>The solar system is a vast, gravitationally bound cosmic neighborhood consisting of the Sun and all the celestial objects that orbit around it, including eight major planets, dwarf planets like Pluto, hundreds of moons, millions of asteroids, and icy comets. It formed approximately 4.6 billion years ago from the gravitational collapse of a giant interstellar molecular cloud. At the very center of this system sits the Sun, a massive G-type main-sequence star that holds 99.86% of the entire solar system's mass. Through nuclear fusion in its core, the Sun generates the immense light, heat, and energy that travel across space, keeping planets in their orbits and making life possible on Earth.</p>
 
@@ -65,7 +244,7 @@
     <!-- 7. Uranus -->
     <h2>7. Uranus</h2>
     <p><strong>Tagline:</strong> <em>The Sideways Ice Giant</em></p>
-    <img src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR5f4iGKgcTiEG88vsRM248AwaoFu6XouG07g0tIDHCg&s=10" alt="z - Planet Uranus" width="300">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR5f4iGKgcTiEG88vsRM248AwaoFu6XouG07g0tIDHCg&s=10" alt="z - Planet Uranus" width="300">
     <p>Uranus is a pale blue-green ice giant composed primarily of a dense, hot fluid of icy materials—water, ammonia, and methane—above a small rocky core. Its serene cyan-blue appearance comes from methane gas in its frigid upper atmosphere, which absorbs red light from the Sun and reflects blue-green wavelengths back into space. What makes Uranus truly bizarre among all planets is its extreme 98-degree axial tilt, likely caused by a massive collision with an Earth-sized object early in its history. Because of this tilt, Uranus essentially rotates on its side like a rolling ball as it travels along its 84-year orbit around the Sun. This unusual orientation produces the most extreme seasons in the solar system, where each pole experiences about 42 years of continuous, blinding sunlight followed by 42 years of complete freezing darkness.</p>
 
     <hr>
