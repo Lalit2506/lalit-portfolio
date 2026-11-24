@@ -35,39 +35,137 @@
       display: none;
     }
 
+    .navbar {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 1000;
+    }
+
+    .navbar ul {
+      align-items: center;
+    }
+
+    .navbar a {
+      position: relative;
+      transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    }
+
+    .navbar a::after {
+      content: "";
+      position: absolute;
+      left: 0.55rem;
+      right: 0.55rem;
+      bottom: 0.18rem;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    .navbar a:hover,
+    .navbar a:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .navbar a:hover::after,
+    .navbar a:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    .profile-image-wrap {
+      flex: 0 0 clamp(10rem, 22vw, 15rem);
+      width: clamp(10rem, 22vw, 15rem);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    .profile-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
     @media (max-width: 700px) {
       .navbar {
         align-items: center;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-between;
-        padding: 1rem;
+        padding: 0.8rem 1rem;
       }
 
       .nav-menu-btn {
         align-items: center;
-        border: 1px solid currentColor;
-        border-radius: 0.4rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
         cursor: pointer;
         display: flex;
-        font-size: 1.5rem;
-        height: 2.5rem;
+        flex-direction: column;
+        gap: 4px;
+        height: 2.75rem;
         justify-content: center;
-        line-height: 1;
         padding: 0;
-        width: 2.5rem;
+        width: 2.75rem;
+        transition: transform 0.25s ease, background 0.25s ease;
+      }
+
+      .nav-menu-btn span {
+        width: 1.15rem;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+      }
+
+      .nav-toggle:checked + .nav-menu-btn {
+        background: rgba(255, 255, 255, 0.09);
+        transform: rotate(8deg);
+      }
+
+      .nav-toggle:checked + .nav-menu-btn span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      .nav-toggle:checked + .nav-menu-btn span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      .nav-toggle:checked + .nav-menu-btn span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
       }
 
       .navbar ul {
-        display: none;
-        flex-direction: column;
-        gap: 0.75rem;
-        margin: 0.75rem 0 0;
-        padding: 0;
-        width: 100%;
+        position: absolute;
+        top: calc(100% + 0.55rem);
+        left: 1rem;
+        right: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem;
+        margin: 0;
+        padding: 0.8rem;
+        width: auto;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 1.25rem;
+        background: rgba(14, 14, 17, 0.96);
+        box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-0.8rem) scale(0.96);
+        transform-origin: top right;
+        transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
       }
 
       .nav-toggle:checked ~ ul {
-        display: flex;
+        display: grid;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
       }
 
       .nav-toggle:focus-visible + .nav-menu-btn {
@@ -80,7 +178,17 @@
       }
 
       .navbar a {
+        display: block;
         font-size: 0.9rem;
+        text-align: center;
+        padding: 0.85rem 0.6rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .navbar a::after {
+        display: none;
       }
 
       .hero,
@@ -111,17 +219,160 @@
         align-items: center !important;
         flex-direction: column !important;
         gap: 1.25rem !important;
+        margin-inline: auto;
+        padding-block: 2rem;
         text-align: center;
       }
 
+      .profile-image-wrap {
+        align-self: center;
+        width: min(54vw, 10.5rem);
+        flex-basis: auto;
+        flex-shrink: 0;
+        border: 0.35rem solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.35);
+      }
+
       .profile-image {
-        max-width: min(70vw, 13rem);
+        width: 100%;
+        height: 100%;
+      }
+
+      .profile-section > div:last-child {
+        max-width: 32rem;
+        padding-inline: 0.35rem;
+      }
+
+      .profile-section h2 {
+        margin: 0.55rem 0;
+        font-size: clamp(1.45rem, 7vw, 2rem);
+        line-height: 1.2;
+      }
+
+      .profile-section p {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
 
       .about-box,
       .section-drawer,
       .drawer-body {
         max-width: 100%;
+      }
+
+      .contact-section {
+        overflow: hidden;
+        padding-inline: 0.75rem;
+      }
+
+      .contact-hub {
+        width: 100%;
+        max-width: 100%;
+        margin-inline: auto;
+        border-radius: 1.25rem;
+        overflow: hidden;
+      }
+
+      .hub-front {
+        width: 100%;
+        padding: 1.25rem;
+        text-align: center;
+      }
+
+      .availability-pill {
+        max-width: 100%;
+        white-space: normal;
+        line-height: 1.35;
+      }
+
+      .hub-front p {
+        margin-inline: auto;
+        max-width: 30rem;
+        line-height: 1.55;
+      }
+
+      .hub-actions {
+        gap: 0.75rem;
+      }
+
+      .hub-card-btn {
+        min-height: 4.5rem;
+        padding: 0.85rem;
+        text-align: left;
+      }
+
+      .section-drawer {
+        max-height: 85vh;
+      }
+
+      .drawer-top {
+        gap: 0.75rem;
+        padding: 1rem 1.1rem;
+      }
+
+      .drawer-top h3 {
+        min-width: 0;
+        font-size: 1.15rem;
+      }
+
+      .modern-form {
+        gap: 0.85rem;
+      }
+
+      .reason-picker,
+      .input-row,
+      .modern-form > .floating-field,
+      .modern-submit {
+        width: 100%;
+      }
+
+      .chip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .social-tile {
+        min-height: 4rem;
+        padding: 0.75rem;
+      }
+
+      .hub-front h2 {
+        font-size: clamp(1.7rem, 8vw, 2.3rem);
+      }
+
+      .hub-actions,
+      .input-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+      }
+
+      .hub-card-btn,
+      .phone-group,
+      .floating-field,
+      .modern-form,
+      .chip-grid,
+      .social-cards-grid {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .phone-group {
+        display: grid;
+        grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr);
+      }
+
+      .country-select,
+      .phone-input-wrap input {
+        min-width: 0;
+      }
+
+      .social-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .drawer-body {
+        overflow-x: hidden;
       }
 
       .drawer-body {
@@ -157,6 +408,330 @@
         padding: 1.5rem 1rem;
         text-align: center;
       }
+
+      /* Mobile touch and safe-area improvements */
+      .navbar {
+        padding-top: max(0.8rem, env(safe-area-inset-top));
+      }
+
+      .navbar a,
+      .drawer-trigger-btn,
+      .hub-card-btn,
+      .close-btn,
+      button,
+      select {
+        min-height: 2.75rem;
+      }
+
+      .hero-actions a,
+      .drawer-trigger-btn,
+      .modern-submit {
+        width: 100%;
+      }
+
+      .hero,
+      .section {
+        scroll-margin-top: 1rem;
+      }
+
+      .section-drawer {
+        max-height: calc(100dvh - 1rem);
+      }
+
+      .drawer-body {
+        -webkit-overflow-scrolling: touch;
+      }
+
+      footer {
+        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (max-width: 360px) {
+      .navbar {
+        padding-inline: 0.7rem;
+      }
+
+      .navbar ul {
+        left: 0.7rem;
+        right: 0.7rem;
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .section {
+        padding-inline: 0.75rem;
+      }
+
+      .hub-card-btn {
+        grid-template-columns: 2rem minmax(0, 1fr) auto;
+        padding-inline: 0.7rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    /* Keep every layout inside the viewport on small and medium screens. */
+    .navbar {
+      position: relative;
+      width: 100%;
+    }
+
+    .navbar a,
+    .project-card,
+    .edu-card,
+    .contact-card,
+    .hub-card-btn,
+    .social-tile {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .section,
+    .hero {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    @media (max-width: 700px) {
+      .logo {
+        max-width: calc(100% - 3.5rem);
+        overflow-wrap: anywhere;
+      }
+
+      .navbar ul {
+        z-index: 20;
+      }
+
+      .profile-section > div:last-child {
+        width: 100%;
+      }
+
+      .profile-section h2,
+      .about-front h2,
+      .drawer-top h3 {
+        overflow-wrap: anywhere;
+      }
+
+      .about-box,
+      .contact-hub,
+      .section-drawer,
+      .drawer-body,
+      .modern-form {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .hub-card-btn {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+
+      .hub-card-btn strong,
+      .hub-card-btn small,
+      .social-tile strong,
+      .social-tile small {
+        overflow-wrap: anywhere;
+      }
+
+      input,
+      select,
+      textarea,
+      button {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .navbar ul {
+        grid-template-columns: 1fr;
+      }
+
+      .social-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .social-cards-grid .dm-tile {
+        grid-column: auto !important;
+        justify-self: stretch !important;
+      }
+
+      .phone-group {
+        grid-template-columns: minmax(4rem, 0.8fr) minmax(0, 1.2fr);
+      }
+
+      .hub-front,
+      .drawer-body {
+        padding: 1rem;
+      }
+    }
+
+    @media (min-width: 701px) and (max-width: 950px) {
+      .navbar {
+        padding-inline: 1.25rem;
+      }
+
+      .navbar ul {
+        gap: 0.35rem;
+      }
+
+      .navbar a {
+        padding-inline: 0.55rem;
+        font-size: 0.9rem;
+      }
+
+      .profile-section {
+        gap: 1.25rem !important;
+      }
+    }
+
+    /* Responsive Direct Connect drawer */
+    .contact-section,
+    .contact-hub,
+    .social-drawer,
+    .social-drawer .drawer-body {
+      min-width: 0;
+    }
+
+    .social-drawer {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .social-drawer .drawer-body {
+      width: 100%;
+      max-height: min(68vh, 32rem);
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .social-cards-grid {
+      width: 100%;
+      min-width: 0;
+      align-items: stretch;
+    }
+
+    .social-tile {
+      width: 100%;
+      min-width: 0;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .social-tile > div {
+      min-width: 0;
+    }
+
+    .social-tile strong,
+    .social-tile small {
+      display: block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    @media (min-width: 951px) {
+      .social-drawer {
+        max-height: min(82vh, 44rem);
+      }
+
+      .social-cards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .social-cards-grid .dm-tile {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 701px) and (max-width: 950px) {
+      .social-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .social-cards-grid .dm-tile {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        width: 100%;
+      }
+
+      .social-drawer .drawer-body {
+        max-height: 70vh;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .contact-section {
+        padding-inline: 0.75rem;
+      }
+
+      .contact-hub {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .social-drawer {
+        max-height: 82vh;
+      }
+
+      .social-drawer .drawer-top {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+
+      .social-drawer .drawer-body {
+        max-height: calc(82vh - 4.75rem);
+        padding: 0.9rem;
+      }
+
+      .social-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .social-tile {
+        min-height: 4.25rem;
+        height: auto;
+        gap: 0.65rem;
+        padding: 0.7rem;
+      }
+
+      .social-tile img,
+      .social-tile > span[aria-hidden="true"] {
+        width: 2.25rem;
+        max-width: 2.25rem;
+        height: 2.25rem;
+        object-fit: contain;
+        text-align: center;
+      }
+
+      .social-cards-grid .dm-tile {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .social-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .social-drawer .drawer-body {
+        max-height: calc(82vh - 4.5rem);
+      }
+
+      .social-tile {
+        min-height: 4.1rem;
+      }
     }
   </style>
 </head>
@@ -165,7 +740,11 @@
   <nav class="navbar">
     <div class="logo">Lalit<span>.tech</span></div>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu" />
-    <label for="nav-toggle" class="nav-menu-btn" aria-label="Open navigation menu">☰</label>
+    <label for="nav-toggle" class="nav-menu-btn" aria-label="Open navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
     <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#profile">Profile</a></li>
@@ -560,5 +1139,46 @@
   <footer>
     <p>© 2026 Lalit Kumar Patel. Built with HTML &amp; Pure CSS.</p>
   </footer>
+
+  <script>
+    (() => {
+      const navToggle = document.getElementById('nav-toggle');
+      const navButton = document.querySelector('.nav-menu-btn');
+      const navLinks = document.querySelectorAll('.navbar a');
+      const drawerToggles = document.querySelectorAll('.drawer-checkbox, #about-drawer-toggle');
+
+      const updateMenuState = () => {
+        if (navButton) {
+          navButton.setAttribute('aria-expanded', String(Boolean(navToggle && navToggle.checked)));
+        }
+      };
+
+      navToggle?.addEventListener('change', updateMenuState);
+      navLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          if (navToggle) navToggle.checked = false;
+          updateMenuState();
+        });
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        if (navToggle) navToggle.checked = false;
+        drawerToggles.forEach((toggle) => { toggle.checked = false; });
+        updateMenuState();
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!navToggle?.checked) return;
+        const navbar = document.querySelector('.navbar');
+        if (navbar && !navbar.contains(event.target)) {
+          navToggle.checked = false;
+          updateMenuState();
+        }
+      });
+
+      updateMenuState();
+    })();
+  </script>
 </body>
 </html>
